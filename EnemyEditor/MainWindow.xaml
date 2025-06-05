@@ -7,28 +7,41 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Панель инструментов -->
+            <RowDefinition Height="*"/>
+            <!-- Canvas с иконками -->
+            <RowDefinition Height="Auto"/>
+            <!-- Список врагов -->
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопки управления -->
+        </Grid.RowDefinitions>
 
-        <!-- Панель управления -->
-        <StackPanel Grid.Column="0">
-            <Button Content="Add Enemy" Click="BtnAdd_Click"/>
-            <Button Content="Remove Enemy" Click="BtnRemove_Click"/>
-            <Button Content="Save" Click="BtnSave_Click"/>
-            <Button Content="Load" Click="BtnLoad_Click"/>
-            <ListBox x:Name="EnemyList" DisplayMemberPath="Name"/>
+        <!-- Панель инструментов (кнопки Save/Load) -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button x:Name="BtnSave" Content="Save" Width="80" Margin="5" Click="BtnSave_Click"/>
+            <Button x:Name="BtnLoad" Content="Load" Width="80" Margin="5" Click="BtnLoad_Click"/>
         </StackPanel>
 
-        <!-- Холст для иконок -->
-        <Canvas x:Name="IconsCanvas" MouseDown="Window_MouseDown" Grid.Column="1" Background="WhiteSmoke">
-            <!-- Border для выделения выбранной иконки -->
-            <Border x:Name="SelectionBorder" 
-            BorderBrush="Red" 
-            BorderThickness="3"
-            CornerRadius="2"
-            Visibility="Collapsed"/>
-        </Canvas>
+        <!-- Canvas с иконками -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
+            <ScrollViewer>
+                <Canvas x:Name="IconsCanvas" Background="White" Width="600" Height="400">
+                    <Border x:Name="SelectionBorder" Visibility="Collapsed"/>
+                </Canvas>
+            </ScrollViewer>
+        </Border>
+
+        <!-- Список врагов с заголовком -->
+        <GroupBox Grid.Row="2" Header="Enemy List" Margin="5">
+            <ListBox x:Name="EnemyList" Height="150" ItemsSource="{Binding}"/>
+        </GroupBox>
+
+        <!-- Кнопки управления (Add/Remove) -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button x:Name="BtnAdd" Content="Add Enemy" Width="100" Margin="5" Click="BtnAdd_Click"/>
+            <Button x:Name="BtnRemove" Content="Remove Enemy" Width="100" Margin="5" Click="BtnRemove_Click"/>
+        </StackPanel>
     </Grid>
 </Window>

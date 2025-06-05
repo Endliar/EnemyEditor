@@ -61,7 +61,7 @@ namespace EnemyEditor
                 );
 
                 // Обновление списка
-                EnemyList.Items.Refresh();
+                UpdateEnemyList();
             }
         }
 
@@ -71,7 +71,7 @@ namespace EnemyEditor
             {
                 string selectedName = EnemyList.SelectedItem.ToString();
                 enemyList.DeleteEnemyByName(selectedName);
-                EnemyList.Items.Refresh();
+                UpdateEnemyList();
             }
         }
 
@@ -117,6 +117,7 @@ namespace EnemyEditor
         {
             EnemyList.ItemsSource = null;
             EnemyList.ItemsSource = enemyList.GetEnemyNames();
+            EnemyList.Items.Refresh();
         }
 
         protected override void OnInitialized(EventArgs e)

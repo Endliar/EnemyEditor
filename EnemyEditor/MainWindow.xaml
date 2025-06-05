@@ -1,0 +1,34 @@
+﻿<Window x:Class="EnemyEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EnemyEditor"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Панель управления -->
+        <StackPanel Grid.Column="0">
+            <Button Content="Add Enemy" Click="BtnAdd_Click"/>
+            <Button Content="Remove Enemy" Click="BtnRemove_Click"/>
+            <Button Content="Save" Click="BtnSave_Click"/>
+            <Button Content="Load" Click="BtnLoad_Click"/>
+            <ListBox x:Name="EnemyList" DisplayMemberPath="Name"/>
+        </StackPanel>
+
+        <!-- Холст для иконок -->
+        <Canvas x:Name="IconsCanvas" MouseDown="Window_MouseDown" Grid.Column="1" Background="WhiteSmoke">
+            <!-- Border для выделения выбранной иконки -->
+            <Border x:Name="SelectionBorder" 
+            BorderBrush="Red" 
+            BorderThickness="3"
+            CornerRadius="2"
+            Visibility="Collapsed"/>
+        </Canvas>
+    </Grid>
+</Window>

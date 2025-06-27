@@ -265,5 +265,38 @@ namespace EnemyEditor
         }
 
         #endregion
+
+        private void BtnPlayGame_Click(object sender, RoutedEventArgs e)
+        {
+            string enemyFilePath = System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName),
+                "Enemies.json"
+            );
+
+            if (!System.IO.File.Exists(enemyFilePath))
+            {
+                var result = MessageBox.Show(
+                    "The 'Enemies.json' file was not found. You should save your enemy list first.\nDo you want to save now?",
+                    "File Not Found",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    BtnSave_Click(sender, e);
+                    if (!System.IO.File.Exists(enemyFilePath))
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            GameWindow gameWindow = new GameWindow(this.iconList);
+            gameWindow.Show();
+        }
     }
 }

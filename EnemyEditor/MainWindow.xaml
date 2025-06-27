@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:EnemyEditor"
         mc:Ignorable="d"
         Title="Enemy Editor" Height="600" Width="1000"
-        MouseDown="Window_MouseDown">
+        >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
@@ -91,7 +91,7 @@
         <!-- Список иконок -->
         <GroupBox Grid.Column="2" Header="Available Icons" Margin="5">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Canvas x:Name="IconsCanvas" Background="White" Width="Auto" Height="Auto">
+                <Canvas x:Name="IconsCanvas" Background="White" Width="Auto" Height="Auto" MouseDown="IconsCanvas_MouseDown">
                     <Border x:Name="SelectionBorder" BorderBrush="Blue" BorderThickness="2" Visibility="Collapsed"/>
                 </Canvas>
             </ScrollViewer>

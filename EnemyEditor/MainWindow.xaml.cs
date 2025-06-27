@@ -237,29 +237,30 @@ namespace EnemyEditor
             }
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void IconsCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source is Canvas && ((Canvas)e.Source).Name == "IconsCanvas")
+            Point mousePos = e.GetPosition(IconsCanvas);
+            CIcon clickedIcon = iconList.IsMouseOver(mousePos);
+
+            if (clickedIcon != null)
             {
-                Point mousePos = e.GetPosition(IconsCanvas);
-                CIcon clickedIcon = iconList.IsMouseOver(mousePos);
+                EnemyList.SelectedItem = null;
+                ClearCentralPanel();
 
-                if (clickedIcon != null)
+                selectedIconForCreation = clickedIcon;
+
+                if (ImgSelectedIcon.Parent is Border border)
                 {
-                    EnemyList.SelectedItem = null;
-                    ClearCentralPanel();
-
-                    selectedIconForCreation = clickedIcon;
-
-                    ImgSelectedIcon.Source = (clickedIcon.GetIcon().Fill as ImageBrush)?.ImageSource;
-                    TxtIconName.Text = clickedIcon.Name();
-
-                    SelectionBorder.Visibility = Visibility.Visible;
-                    SelectionBorder.Width = clickedIcon.IconWidth() + 4;
-                    SelectionBorder.Height = clickedIcon.IconHeight() + 4;
-                    Canvas.SetLeft(SelectionBorder, clickedIcon.X() - 2);
-                    Canvas.SetTop(SelectionBorder, clickedIcon.Y() - 2);
+                    (ImgSelectedIcon.Parent as Border).DataContext = clickedIcon;
                 }
+                ImgSelectedIcon.Source = (clickedIcon.GetIcon().Fill as ImageBrush)?.ImageSource;
+                TxtIconName.Text = clickedIcon.Name();
+
+                SelectionBorder.Visibility = Visibility.Visible;
+                SelectionBorder.Width = clickedIcon.IconWidth() + 4;
+                SelectionBorder.Height = clickedIcon.IconHeight() + 4;
+                Canvas.SetLeft(SelectionBorder, clickedIcon.X() - 2);
+                Canvas.SetTop(SelectionBorder, clickedIcon.Y() - 2);
             }
         }
 

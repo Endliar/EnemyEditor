@@ -47,13 +47,18 @@ namespace EnemyEditor
 
         private void ArrangeIcons()
         {
-            int currentX = x + x_sh;
-            int currentY = y + y_sh;
+            int cols = canvasW / (imageWidth + border);
+            if (cols == 0) cols = 1;
 
-            foreach (var icon in icons)
+            for (int i = 0; i < icons.Count; i++)
             {
-                icon.SetPosition(new Point(currentX, currentY));
-                currentX += imageWidth + border;
+                int row = i / cols;
+                int col = i % cols;
+
+                int xPos = col * (imageWidth + border) - x_sh;
+                int yPos = row * (imageHeight + border) - y_sh;
+
+                icons[i].SetPosition(new Point(xPos, yPos));
             }
         }
 
@@ -87,6 +92,9 @@ namespace EnemyEditor
             icons.Find(icon => icon.Name() == name);
 
         public CIcon IsMouseOver(Point mousePosition) =>
-            icons.Find(icon => icon.IsMouseOver(mousePosition));
+            icons.Find(icon => icon.IsMouseOver(mousePosition)); // Никаких scroll-параметров!
+
+        public int GetScrollX() => x_sh;
+        public int GetScrollY() => y_sh;
     }
 }

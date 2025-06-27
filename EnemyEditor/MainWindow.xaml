@@ -5,43 +5,96 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EnemyEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Enemy Editor" Height="600" Width="1000"
+        MouseDown="Window_MouseDown">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Панель инструментов -->
-            <RowDefinition Height="*"/>
-            <!-- Canvas с иконками -->
-            <RowDefinition Height="Auto"/>
-            <!-- Список врагов -->
-            <RowDefinition Height="Auto"/>
-            <!-- Кнопки управления -->
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Панель инструментов (кнопки Save/Load) -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="BtnSave" Content="Save" Width="80" Margin="5" Click="BtnSave_Click"/>
-            <Button x:Name="BtnLoad" Content="Load" Width="80" Margin="5" Click="BtnLoad_Click"/>
-        </StackPanel>
-
-        <!-- Canvas с иконками -->
-        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="5">
-            <ScrollViewer>
-                <Canvas x:Name="IconsCanvas" Background="White" Width="600" Height="400">
-                    <Border x:Name="SelectionBorder" Visibility="Collapsed"/>
-                </Canvas>
-            </ScrollViewer>
-        </Border>
-
-        <!-- Список врагов с заголовком -->
-        <GroupBox Grid.Row="2" Header="Enemy List" Margin="5">
-            <ListBox x:Name="EnemyList" Height="150" ItemsSource="{Binding}"/>
+        <!-- Список врагов -->
+        <GroupBox Grid.Column="0" Header="Enemy List" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListBox x:Name="EnemyList" Margin="5" SelectionChanged="EnemyList_SelectionChanged"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <Button x:Name="BtnSave" Content="Save" Width="80" Margin="0,0,5,0" Click="BtnSave_Click"/>
+                    <Button x:Name="BtnLoad" Content="Load" Width="80" Click="BtnLoad_Click"/>
+                </StackPanel>
+            </Grid>
         </GroupBox>
 
-        <!-- Кнопки управления (Add/Remove) -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-            <Button x:Name="BtnAdd" Content="Add Enemy" Width="100" Margin="5" Click="BtnAdd_Click"/>
-            <Button x:Name="BtnRemove" Content="Remove Enemy" Width="100" Margin="5" Click="BtnRemove_Click"/>
-        </StackPanel>
+        <!-- Редактор противника -->
+        <GroupBox Grid.Column="1" Header="Enemy Details" Margin="5">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Иконка -->
+                <TextBlock Text="Icon:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                    <Border BorderBrush="Gray" BorderThickness="1" Background="LightGray">
+                        <Image x:Name="ImgSelectedIcon" Width="64" Height="64" Stretch="Uniform"/>
+                    </Border>
+                    <TextBlock x:Name="TxtIconName" Margin="10,0,0,0" VerticalAlignment="Center" Text="No icon selected"/>
+                </StackPanel>
+
+                <!-- Имя -->
+                <TextBlock Text="Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="TxtName" Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+                <!-- Base Life -->
+                <TextBlock Text="Base Life:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="TxtBaseLife" Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+                <!-- Life Modifier -->
+                <TextBlock Text="Life Modifier:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="TxtLifeModifier" Grid.Row="3" Grid.Column="1" Margin="5"/>
+
+                <!-- Base Gold -->
+                <TextBlock Text="Base Gold:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="TxtBaseGold" Grid.Row="4" Grid.Column="1" Margin="5"/>
+
+                <!-- Gold Modifier -->
+                <TextBlock Text="Gold Modifier:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="TxtGoldModifier" Grid.Row="5" Grid.Column="1" Margin="5"/>
+
+                <!-- Spawn Chance -->
+                <TextBlock Text="Spawn Chance:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+                <TextBox x:Name="TxtSpawnChance" Grid.Row="6" Grid.Column="1" Margin="5"/>
+
+                <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="BtnAdd" Content="Add" Width="100" Margin="5" Click="BtnAdd_Click"/>
+                    <Button x:Name="BtnRemove" Content="Remove" Width="100" Margin="5" Click="BtnRemove_Click"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <!-- Список иконок -->
+        <GroupBox Grid.Column="2" Header="Available Icons" Margin="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Canvas x:Name="IconsCanvas" Background="White" Width="Auto" Height="Auto">
+                    <Border x:Name="SelectionBorder" BorderBrush="Blue" BorderThickness="2" Visibility="Collapsed"/>
+                </Canvas>
+            </ScrollViewer>
+        </GroupBox>
     </Grid>
 </Window>

@@ -69,11 +69,14 @@ namespace EnemyEditor
             UpdatePosition();
         }
 
-        public bool IsMouseOver(Point mousePosition) =>
-            mousePosition.X >= position.X &&
-            mousePosition.X <= position.X + iconWidth &&
-            mousePosition.Y >= position.Y &&
-            mousePosition.Y <= position.Y + iconHeight;
+        public bool IsMouseOver(Point mousePosition)
+        {
+            // Убираем весь scroll-мусор!
+            return mousePosition.X >= position.X &&
+                   mousePosition.X <= position.X + iconWidth &&
+                   mousePosition.Y >= position.Y &&
+                   mousePosition.Y <= position.Y + iconHeight;
+        }
 
         public Rectangle CloneIcon() => new Rectangle
         {
